@@ -4,14 +4,14 @@
 
 A company specializing in the development of electronic sensors requires our services to communicate efficiently.
 The information of each device is displayed through a web application. Each endpoint implements a JSON frame with
-the following structure:
+the following schema:
 
 ```json 
 {
     "date": "Generated date in format DD/MM/YYYY HH:mm:ss",
-    "device_id": Number,
-    "temperature": Number,
-    "humidity": Number
+    "device_id": "Number",
+    "temperature": "Number",
+    "humidity": "Number"
 }
 ```
 
