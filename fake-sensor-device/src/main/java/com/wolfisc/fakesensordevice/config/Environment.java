@@ -3,7 +3,7 @@ package com.wolfisc.fakesensordevice.config;
 public class Environment {
 
     public static final String DEVICE_ID = "DEVICE_ID";
-    public static final String BROKER_URL = "BROKER_URL";
+    public static final String BROKEN_URL = "BROKER_URL";
     public static final String JMS_USER = "JMS_USER";
     public static final String JMS_PASS = "JMS_PASS";
     public static final String QUEUE_NAME = "QUEUE_NAME";
