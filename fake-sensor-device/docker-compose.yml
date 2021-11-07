@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+  device-1:       #nombre del servicio
+    image: ivanogc99/fake-sensor-device:1.0
+    environment:
+      - DEVICE_ID=1
+      - BROKER_URL=tcp://0.0.0.0:61616
+      - JMS_USER=admin
+      - JMS_PASS=admin
+      - QUEUE_NAME=notificacion_sensores
+      - SEND_INFO_EVERY_MS=60000
+    networks:
+      - red-device
+    depends_on:   #indica que primero debe subir los servicios indicados.
+      - jms-server
+
+  device-2:       #nombre del servicio
+      image: ivanogc99/fake-sensor-device:1.0
+      environment:
+        - DEVICE_ID=2
+        - BROKER_URL=tcp://0.0.0.0:61616
+        - JMS_USER=admin
+        - JMS_PASS=admin
+        - QUEUE_NAME=notificacion_sensores
+        - SEND_INFO_EVERY_MS=60000
+      networks:
+        - red-device
+      depends_on:   #indica que primero debe subir los servicios indicados.
+        - jms-server
+
+  device-3:       #nombre del servicio
+    image: ivanogc99/fake-sensor-device:1.0
+    environment:
+      - DEVICE_ID=3
+      - BROKER_URL=tcp://0.0.0.0:61616
+      - JMS_USER=admin
+      - JMS_PASS=admin
+      - QUEUE_NAME=notificacion_sensores
+      - SEND_INFO_EVERY_MS=60000
+    networks:
+      - red-device
+    depends_on:   #indica que primero debe subir los servicios indicados.
+      - jms-server
+
+  jms-server:
+    image: rmohr/activemq:5.14.0-alpine
+    ports:
+      - 61616:61616 #broker
+      - 8161:8161 #web
+    networks:
+      - red-device
+    volumes:
+      -  "./activemq/activemq.xml:/conf/activemq.xml"
+
+networks:  #bloque para las redes
+  red-device:   #indicando la red definida
+
+volumes: #Bloque para definir los volumenes
+  mi-volumen-compose: 
+
+  
