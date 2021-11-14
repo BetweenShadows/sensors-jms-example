@@ -2,13 +2,14 @@ version: '3.8'
 services:
   device-1:       #nombre del servicio
     image: ivanogc99/fake-sensor-device:1.0
+    container_name: device-1
     environment:
       - DEVICE_ID=1
-      - BROKER_URL=tcp://0.0.0.0:61616
+      - BROKER_URL=tcp://jms-server:61616
       - JMS_USER=admin
       - JMS_PASS=admin
       - QUEUE_NAME=notificacion_sensores
-      - SEND_INFO_EVERY_MS=60000
+      - SEND_INFO_EVERY_MS=1000
     networks:
       - red-device
     depends_on:   #indica que primero debe subir los servicios indicados.
@@ -16,13 +17,14 @@ services:
 
   device-2:       #nombre del servicio
       image: ivanogc99/fake-sensor-device:1.0
+      container_name: device-2
       environment:
         - DEVICE_ID=2
-        - BROKER_URL=tcp://0.0.0.0:61616
+        - BROKER_URL=tcp://jms-server:61616
         - JMS_USER=admin
         - JMS_PASS=admin
         - QUEUE_NAME=notificacion_sensores
-        - SEND_INFO_EVERY_MS=60000
+        - SEND_INFO_EVERY_MS=1000
       networks:
         - red-device
       depends_on:   #indica que primero debe subir los servicios indicados.
@@ -30,13 +32,14 @@ services:
 
   device-3:       #nombre del servicio
     image: ivanogc99/fake-sensor-device:1.0
+    container_name: device-3
     environment:
       - DEVICE_ID=3
-      - BROKER_URL=tcp://0.0.0.0:61616
+      - BROKER_URL=tcp://jms-server:61616
       - JMS_USER=admin
       - JMS_PASS=admin
       - QUEUE_NAME=notificacion_sensores
-      - SEND_INFO_EVERY_MS=60000
+      - SEND_INFO_EVERY_MS=1000
     networks:
       - red-device
     depends_on:   #indica que primero debe subir los servicios indicados.
