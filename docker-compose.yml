@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+  jms-server:
+    container_name: jms-server
+    image: ivanogc99/server-fake-sensor-device
+    ports:
+      - "61616:61616"
+      - "61617:61617"
+    networks:
+      - red-device
+
+  device-1:
+    image: ivanogc99/fake-sensor-device:1.0
+    container_name: device-1
+    environment:
+      - DEVICE_ID=1
+      - BROKER_URL=tcp://jms-server:61616
+      - JMS_USER=admin
+      - JMS_PASS=admin
+      - QUEUE_NAME=notificacion_sensores
+      - SEND_INFO_EVERY_MS=1000
+    networks:
+      - red-device
+    depends_on:
+      - jms-server
+
+  device-2:
+    image: ivanogc99/fake-sensor-device:1.0
+    container_name: device-2
+    environment:
+      - DEVICE_ID=2
+      - BROKER_URL=tcp://jms-server:61616
+      - JMS_USER=admin
+      - JMS_PASS=admin
+      - QUEUE_NAME=notificacion_sensores
+      - SEND_INFO_EVERY_MS=1000
+    networks:
+      - red-device
+    depends_on:
+      - jms-server
+
+  device-3:
+    image: ivanogc99/fake-sensor-device:1.0
+    container_name: device-3
+    environment:
+      - DEVICE_ID=3
+      - BROKER_URL=tcp://jms-server:61616
+      - JMS_USER=admin
+      - JMS_PASS=admin
+      - QUEUE_NAME=notificacion_sensores
+      - SEND_INFO_EVERY_MS=1000
+    networks:
+      - red-device
+    depends_on:
+      - jms-server
+
+networks:
+  red-device:
