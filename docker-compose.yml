@@ -1,58 +1,55 @@
-version: '3.8'
+version: '3.9'
 services:
-  jms-server:
-    container_name: jms-server
-    image: ivanogc99/server-fake-sensor-device
+  rabbitmq_server:
+    hostname: 'mabbit'
+    image: rabbitmq:3.8.25-management
+    container_name: rabbitmq_server
+    restart: always
+    tty: true
+    stdin_open: true
+    networks:
+      - jms_example
+    volumes:
+      - ./enable_plugins:/etc/rabbitmq/enable_plugins
+      - ./data:/var/lib/rabbitmq
     ports:
-      - "61616:61616"
-      - "61617:61617"
-    networks:
-      - red-device
+      - "15672:15672"
+      - "5672:5672"
 
-  device-1:
-    image: ivanogc99/fake-sensor-device:1.0
-    container_name: device-1
+  device_1:
+    image: ivanogc99/sensor_device:1.0
+    container_name: device_1
+    restart: always
     environment:
+      - RMQ_USER=guest
+      - RMQ_PASS=guest
+      - RMQ_HOST=rabbitmq_server
+      - RMQ_PORT=5672
       - DEVICE_ID=1
-      - BROKER_URL=tcp://jms-server:61616
-      - JMS_USER=admin
-      - JMS_PASS=admin
-      - QUEUE_NAME=notificacion_sensores
-      - SEND_INFO_EVERY_MS=1000
+      - SEND_RATE=3000
     networks:
-      - red-device
+      - jms_example
     depends_on:
-      - jms-server
+      - rabbitmq_server
 
-  device-2:
-    image: ivanogc99/fake-sensor-device:1.0
-    container_name: device-2
+  device_2:
+    image: ivanogc99/sensor_device:1.0
+    container_name: device_2
+    restart: always
     environment:
+      - RMQ_USER=guest
+      - RMQ_PASS=guest
+      - RMQ_HOST=rabbitmq_server
+      - RMQ_PORT=5672
       - DEVICE_ID=2
-      - BROKER_URL=tcp://jms-server:61616
-      - JMS_USER=admin
-      - JMS_PASS=admin
-      - QUEUE_NAME=notificacion_sensores
-      - SEND_INFO_EVERY_MS=1000
+      - SEND_RATE=3000
     networks:
-      - red-device
+      - jms_example
     depends_on:
-      - jms-server
+      - rabbitmq_server
 
-  device-3:
-    image: ivanogc99/fake-sensor-device:1.0
-    container_name: device-3
-    environment:
-      - DEVICE_ID=3
-      - BROKER_URL=tcp://jms-server:61616
-      - JMS_USER=admin
-      - JMS_PASS=admin
-      - QUEUE_NAME=notificacion_sensores
-      - SEND_INFO_EVERY_MS=1000
-    networks:
-      - red-device
-    depends_on:
-      - jms-server
+volumes:
+  rabbitmq_data:
 
 networks:
-  red-device:
+  jms_example:
