@@ -31,3 +31,10 @@ the database. The application must graph the data in real-time.
   connected. Communication between the web application and the client can be using
   the WebSocket protocol to present update information.
 - The Scenario must use Docker and Docker Compose.
+
+## Preparing the Scenario
+
+To run the proposed scenario, just use the following command:
+```sh 
+docker-compose --e .env up -d
+```
