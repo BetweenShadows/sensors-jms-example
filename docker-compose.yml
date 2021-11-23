@@ -48,6 +48,25 @@ services:
     depends_on:
       - rabbitmq_server
 
+  statistics:
+    image: ivanogc99/statistics_device:1.0
+    container_name: statistics_device
+    restart: always
+    environment:
+      - RMQ_USER=guest
+      - RMQ_PASS=guest
+      - RMQ_HOST=rabbitmq_server
+      - RMQ_PORT=5672
+      - APP_PORT=${APP_PORT}
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - jms_example
+    depends_on:
+      - rabbitmq_server
+      - device_1
+      - device_2
+
 volumes:
   rabbitmq_data:
 
